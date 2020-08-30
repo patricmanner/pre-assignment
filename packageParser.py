@@ -17,9 +17,7 @@ def parse_packages():
 
         if line.startswith('Package:'):  # Get package name
             currentPackage = line[8:].strip()
-
-            if not currentPackage in packages:  # Might have been initialized through a reverse dependency. If not, do it here
-                packages[currentPackage] = {}
+            packages[currentPackage] = {}
 
         elif line.startswith('Description:'):  # Get package description
             packages[currentPackage]['description'] = line.rstrip() + '.'
@@ -32,26 +30,30 @@ def parse_packages():
                 packages[currentPackage]['description'] = packages[currentPackage]['description'] + line.rstrip()
 
         elif line.startswith('Depends:'):  # Get dependencies
-            dependencies = re.split(': |, |\\|', line)
+            dependencies = re.split(': |, | \\| ', line)
             dependencies.pop(0)  # Remove the first 'Depends:' item
             noVerDependencies = []
 
-            for dependency in dependencies:  # Loop through dependencies and remove version as well as add reverse
-                                             # dependencies to their package details
+            for dependency in dependencies:  # Loop through dependencies and remove version
                 index = dependency.find(' ')
 
                 if index > -1:  # Found version, remove it
                     dependency = dependency[0:index]
-                noVerDependencies.append(dependency)
-
-                if dependency not in packages:  # Add reverse dependency (create the dependency's dict if needed)
-                    packages[dependency] = {}
-
-                if 'reverseDependency' not in packages[dependency]:
-                    packages[dependency]['reverseDependency'] = [currentPackage]
-
-                else:
-                    packages[dependency]['reverseDependency'].append(currentPackage)
+                noVerDependencies.append(dependency.rstrip())
             packages[currentPackage]['depends'] = noVerDependencies
     file.close()
+
+    for package in packages:  # loop through packages and add reverse dependencies
+
+        if 'depends' in packages[package].keys():
+
+            for depends in packages[package]['depends']:
+
+                if depends in packages.keys():
+
+                    if 'reverseDependency' not in packages[depends]:
+                        packages[depends]['reverseDependency'] = [package]
+
+                    else:
+                        packages[depends]['reverseDependency'].append(package)
     return packages

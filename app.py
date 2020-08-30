@@ -12,7 +12,7 @@ def index():
 @app.route('/details/<string:name>')
 def details(name):
     global packages
-    return render_template('details.html', name=name, details=packages[name])
+    return render_template('details.html', name=name, packages=packages, details=packages[name])
 
 @app.errorhandler(404)
 def page_not_found(e):

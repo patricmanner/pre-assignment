@@ -9,19 +9,26 @@
     <p>{{ details['description'] }}</p>
     <p>Depends:
         {% if 'depends' in details %}
-
+            <ul>
             {% for dependency in details['depends'] %}
-                <a href="/details/{{ dependency }}">{{ dependency }}</a>
+                {% if dependency in packages %}
+                    <li><a href="/details/{{ dependency }}">{{ dependency }}</a></li>
+                {% else %}
+                    <li>{{ dependency }}</li>
+                {% endif %}
             {% endfor %}
+            </ul>
         {% else %}
             -
         {% endif %}
-    </p>
+    </ul>
     <p>Reverse dependencies:
         {% if 'reverseDependency' in details %}
+            <ul>
             {% for dependency in details['reverseDependency'] %}
-                <a href="/details/{{ dependency }}">{{ dependency }}</a>
+                <li><a href="/details/{{ dependency }}">{{ dependency }}</a></li>
             {% endfor %}
+            </ul>
         {% else %}
             -
         {% endif %}
