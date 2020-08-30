@@ -2,12 +2,13 @@ from flask import Flask, render_template
 from packageParser import parse_packages
 
 app = Flask(__name__)
-packages = parse_packages()
+packages, realFile = parse_packages()
 
 @app.route('/')
 def index():
     global packages
-    return render_template('index.html', packages=sorted(packages))
+    global realFile
+    return render_template('index.html', packages=sorted(packages), realFile=realFile)
 
 @app.route('/details/<string:name>')
 def details(name):

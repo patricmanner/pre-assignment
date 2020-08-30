@@ -5,12 +5,14 @@ import re
 def parse_packages():
     packages = {}
     currentPackage = ''
+    realFile = True
 
-    if os.path.exists('/var/lib/dpkg/status.real'):
-        filePath = '/var/lib/dpkg/status.real'
+    if os.path.exists('/var/lib/dpkg/status'):
+        filePath = '/var/lib/dpkg/status'
 
     else:
         filePath = 'status.real'
+        realFile = False
     file = open(filePath, 'r', encoding='utf-8')
 
     for line in file:  # Loop file line by line
@@ -56,4 +58,4 @@ def parse_packages():
 
                     else:
                         packages[depends]['reverseDependency'].append(package)
-    return packages
+    return packages, realFile

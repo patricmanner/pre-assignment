@@ -5,6 +5,10 @@
     <title>Status.real packages</title>
 </head>
 <body>
+    {% if not realFile %}
+        <p>Didn't find /var/lib/dpkg/status file, using mock file</p>
+    {% endif %}
+    <p>Software packages:</p>
     {% for package in packages %}
         <p><a href="/details/{{ package }}">{{ package }}</a></p>
     {% endfor %}
