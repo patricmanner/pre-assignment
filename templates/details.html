@@ -7,7 +7,7 @@
 <body>
     <p>Package: {{ name }}</p>
     <p>{{ details['description'] }}</p>
-    <p>Depends:
+    <p>Dependencies:
         {% if 'depends' in details %}
             <ul>
             {% for dependency in details['depends'] %}
