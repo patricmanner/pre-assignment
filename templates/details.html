@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Package details</title>
+</head>
+<body>
+    <p>Package: {{ name }}</p>
+    <p>{{ details['description'] }}</p>
+    <p>Depends:
+        {% if 'depends' in details %}
+
+            {% for dependency in details['depends'] %}
+                <a href="/details/{{ dependency }}">{{ dependency }}</a>
+            {% endfor %}
+        {% else %}
+            -
+        {% endif %}
+    </p>
+    <p>Reverse dependencies:
+        {% if 'reverseDependency' in details %}
+            {% for dependency in details['reverseDependency'] %}
+                <a href="/details/{{ dependency }}">{{ dependency }}</a>
+            {% endfor %}
+        {% else %}
+            -
+        {% endif %}
+    </p>
+
+</body>
+</html>

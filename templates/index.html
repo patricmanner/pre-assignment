@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Status.real packages</title>
+</head>
+<body>
+    {% for package in packages %}
+        <p><a href="/details/{{ package }}">{{ package }}</a></p>
+    {% endfor %}
+</body>
+</html>
